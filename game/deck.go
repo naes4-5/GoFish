@@ -55,6 +55,11 @@ func MakeDeck() *Deck {
 	return &d
 }
 
+// returns true if there are cards remaining in the deck
+func (d *Deck) HasCardsLeft() bool {
+	return len(d.Cards) > 0
+}
+
 // returns a random card from the deck, or an error if there are no more cards
 // to draw
 func (d *Deck) DrawCard() (Card, error) {
@@ -66,13 +71,7 @@ func (d *Deck) DrawCard() (Card, error) {
 	if i == len(d.Cards)-1 {
 		d.Cards = d.Cards[:i]
 	} else {
-		// I fear this logic may not be correct
 		d.Cards = append(d.Cards[:i], d.Cards[i+1:]...)
 	}
 	return c, nil
-}
-
-// returns true if there are cards remaining in the deck
-func (d *Deck) HasCardsLeft() bool {
-	return len(d.Cards) > 0
 }
