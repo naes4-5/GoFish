@@ -8,19 +8,11 @@ import (
 )
 
 func main() {
-	a := []int{1, 2, 3, 4, 5}
-	i := 2
-	a = append(a[:i], a[i+i:]...)
-	for _, v := range a {
-		fmt.Printf("%d, ", v)
-	}
-	fmt.Println("\nNow we're here")
-
 	b := make([]int, 0, 52)
 	for u, v := range b {
 		fmt.Printf("%d @ %d\n", v, u)
 	}
-	fmt.Println("& now we're here")
+	fmt.Println()
 
 	d := game.MakeDeck()
 	for u, v := range d.Cards {

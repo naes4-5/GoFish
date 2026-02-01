@@ -2,10 +2,13 @@ package game
 
 import (
 	"errors"
+	"fmt"
 	"math/rand/v2"
+	"strconv"
+	"strings"
 )
 
-type Suit int
+type Suit int8
 
 const (
 	Spades Suit = iota
@@ -33,6 +36,25 @@ func (c *Card) GetSuit() (string, error) {
 		return "", errors.New("invalid suit for card")
 	}
 	return suit, nil
+}
+
+// returns a card in string form
+func (c *Card) Sprint() (string, error) {
+	s, err := c.GetSuit()
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%s of %s", strconv.Itoa(int(c.Rank)), s), nil
+}
+
+// prints the card's string
+func (c *Card) Print() error {
+	s, err := c.Sprint()
+	if err != nil {
+		return err
+	}
+	_, err = fmt.Println(s)
+	return err
 }
 
 type Deck struct {
@@ -74,4 +96,28 @@ func (d *Deck) DrawCard() (Card, error) {
 		d.Cards = append(d.Cards[:i], d.Cards[i+1:]...)
 	}
 	return c, nil
+}
+
+// returns a string of all the information of every card in the deck on a
+// different line each
+func (d *Deck) Sprint() (string, error) {
+	var s strings.Builder
+	for _, c := range d.Cards {
+		cs, err := c.Sprint()
+		if err != nil {
+			return "", err
+		}
+		s.WriteString(cs + "\n")
+	}
+	return s.String(), nil
+}
+
+// prints the string form of the deck
+func (d *Deck) Print() error {
+	s, err := d.Sprint()
+	if err != nil {
+		return err
+	}
+	_, err = fmt.Println(s)
+	return err
 }
